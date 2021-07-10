@@ -7,18 +7,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.phonedev.phonedevblog.R
-import com.phonedev.phonedevblog.data.remote.auth.LoginDataSource
-import com.phonedev.phonedevblog.databinding.FragmentLoginBinding
-import com.phonedev.phonedevblog.domain.auth.LoginRepoImpl
-import com.phonedev.phonedevblog.presentation.auth.LoginScreenViewModel
-import com.phonedev.phonedevblog.presentation.auth.LoginScreenViewModelFactory
 import com.phonedev.phonedevblog.core.Result
+import com.phonedev.phonedevblog.data.remote.auth.AuthDataSource
+import com.phonedev.phonedevblog.databinding.FragmentLoginBinding
+import com.phonedev.phonedevblog.domain.auth.AuthRepoImpl
+import com.phonedev.phonedevblog.presentation.auth.AuthViewModel
+import com.phonedev.phonedevblog.presentation.auth.AuthViewModelFactory
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
     private val firebaseAuth by lazy {FirebaseAuth.getInstance()}
-    private val viewModel by viewModels<LoginScreenViewModel> { LoginScreenViewModelFactory(LoginRepoImpl(LoginDataSource())) }
+    private val viewModel by viewModels<AuthViewModel> { AuthViewModelFactory(AuthRepoImpl(AuthDataSource())) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,11 +66,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.signIn(email, password).observe(viewLifecycleOwner, { result ->
             when(result){
-                is com.phonedev.phonedevblog.core.Result.Loading -> {
+                is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnSignin.isEnabled = false
                 }
-                is com.phonedev.phonedevblog.core.Result.Success -> {
+                is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
                 }

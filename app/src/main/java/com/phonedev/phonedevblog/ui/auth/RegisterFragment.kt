@@ -6,12 +6,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.phonedev.phonedevblog.R
+import com.phonedev.phonedevblog.core.Result
+import com.phonedev.phonedevblog.data.remote.auth.AuthDataSource
 import com.phonedev.phonedevblog.databinding.FragmentRegisterBinding
+import com.phonedev.phonedevblog.domain.auth.AuthRepoImpl
+import com.phonedev.phonedevblog.presentation.auth.AuthViewModel
+import com.phonedev.phonedevblog.presentation.auth.AuthViewModelFactory
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
+    private val viewModel by viewModels<AuthViewModel> { AuthViewModelFactory(
+        AuthRepoImpl(
+            AuthDataSource()
+        )
+    ) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,8 +44,28 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
             if (validateUserData(password, passwordSure, email, userName)) return@setOnClickListener
 
-            Log.d("singUp", "data: $userName, $email, $password, $passwordSure")
+           createUser(email, password, userName)
         }
+    }
+
+    private fun createUser(email: String, password: String, userName: String){
+        viewModel.singUp(email,password,userName).observe(viewLifecycleOwner, Observer { resutl ->
+            when(resutl){
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSiginUp.isEnabled = false
+                }
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    findNavController().navigate(R.id.action_registerFragment_to_homeScreenFragment)
+                }
+                is Result.Failure<*> -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSiginUp.isEnabled = true
+                    Toast.makeText(requireContext(), "Error: ${resutl.exception}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun validateUserData(

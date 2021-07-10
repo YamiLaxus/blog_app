@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.phonedev.phonedevblog.core.Result
-import com.phonedev.phonedevblog.domain.auth.LoginRepo
+import com.phonedev.phonedevblog.domain.auth.AuthRepo
 import kotlinx.coroutines.Dispatchers
 
-class LoginScreenViewModel(private val repo: LoginRepo): ViewModel() {
+class AuthViewModel(private val repo: AuthRepo): ViewModel() {
 
     fun signIn(email: String, password: String) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
@@ -18,11 +18,20 @@ class LoginScreenViewModel(private val repo: LoginRepo): ViewModel() {
         }
     }
 
+    fun singUp(email: String, password: String, username: String) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repo.singUp(email, password, username)))
+        }catch (e: Exception){
+
+        }
+    }
+
 }
 
-class LoginScreenViewModelFactory(private val repo: LoginRepo): ViewModelProvider.Factory{
+class AuthViewModelFactory(private val repo: AuthRepo): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LoginScreenViewModel(repo) as T
+        return AuthViewModel(repo) as T
     }
 
 
