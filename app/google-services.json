@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995336738249",
+    "project_id": "phonedevblog-8af01",
+    "storage_bucket": "phonedevblog-8af01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995336738249:android:8e69cede5ba2fd3f098418",
+        "android_client_info": {
+          "package_name": "com.phonedev.phonedevblog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995336738249-2i6fhv50tm7p8n9uvt8cglelkk42ffel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxc7KIsSe-jHBePqUa_5XCsc9Vv_PrJT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995336738249-2i6fhv50tm7p8n9uvt8cglelkk42ffel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
