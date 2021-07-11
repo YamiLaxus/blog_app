@@ -42,6 +42,13 @@
             app:exitAnim="@anim/slide_out_rigth"
             app:popEnterAnim="@anim/slide_in_rigth"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_registerFragment_to_setupProfileFragment"
+            app:destination="@id/setupProfileFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_rigth"
+            app:popEnterAnim="@anim/slide_in_rigth"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -53,4 +60,9 @@
         android:name="com.phonedev.phonedevblog.ui.camera.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/setupProfileFragment"
+        android:name="com.phonedev.phonedevblog.ui.auth.SetupProfileFragment"
+        android:label="fragment_setup_profile"
+        tools:layout="@layout/fragment_setup_profile" />
 </navigation>
