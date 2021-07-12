@@ -57,9 +57,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 }
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    findNavController().navigate(R.id.action_registerFragment_to_homeScreenFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_setupProfileFragment)
                 }
-                is Result.Failure<*> -> {
+                is Result.Failure -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnSiginUp.isEnabled = true
                     Toast.makeText(requireContext(), "Error: ${resutl.exception}", Toast.LENGTH_SHORT).show()

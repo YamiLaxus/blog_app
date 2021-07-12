@@ -37,7 +37,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                     binding.rvHome.adapter = HomeScreenAdapter(result.data)
                 }
 
-                is Result.Failure<*> ->{
+                is Result.Failure ->{
                     Toast.makeText(
                         requireContext(),
                         "Ocurrio un error: ${result.exception}",
