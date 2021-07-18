@@ -3,6 +3,7 @@ package com.phonedev.phonedevblog.ui.auth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -29,8 +30,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun isUserLoggedIn(){
-        firebaseAuth.currentUser?.let {
-            findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
+        firebaseAuth.currentUser?.let { user ->
+            if(user.displayName.isNullOrEmpty()){
+                findNavController().navigate(R.id.action_loginFragment_to_setupProfileFragment)
+                Toast.makeText(requireContext(), "Error, debes ingresar un nombre de usuario y una foto.", Toast.LENGTH_SHORT).show()
+            }else{
+                findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
+            }
         }
     }
 
@@ -72,7 +78,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 }
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
+                    if(result.data?.displayName.isNullOrEmpty()){
+                        findNavController().navigate(R.id.action_loginFragment_to_setupProfileFragment)
+                        Toast.makeText(requireContext(), "Error, debes ingresar un nombre de usuario y una foto.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
+                    }
+                }
+                is Result.Failure -> {
+                    binding.btnSignin.isEnabled = true
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Erro: ${result.exception}", Toast.LENGTH_SHORT).show()
                 }
 
             }
